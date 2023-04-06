@@ -73,10 +73,34 @@ trait TFooProxy {
 }
 ```
 
-Adding this trait to a class will should be sufficient to allow "implements 
-FooInterface" to be added to the class definition.  The trait will implement 
-the interface proxy, and adds a `setProxy{Name}()` method that can be used 
-from the constructor to set the proxy target.
+The trait will implement the interface proxy, and adds a `setProxy{Name}()` 
+method that can be used from the constructor to set the proxy target.
+
+Adding this trait to a class is sufficient to allow "implements 
+FooInterface" to be added to the class definition:  
+
+```php
+<?php
+
+
+class DecoratedFoo implements IFoo {
+
+
+    use TFooProxy;
+    
+    
+    public function __construct( IFoo $i_foo ) {
+        $this->setProxyFoo( $i_foo );
+    }
+    
+    
+    public function alsoDoesQux() : void {
+        // ... whatever ...
+    }
+
+
+}
+```
 
 The proxy generator will attempt to preserve the `namespace`, `declare`, 
 and `use` statements (but not `use function` or `use const`) from the original
