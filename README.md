@@ -102,6 +102,9 @@ class DecoratedFoo implements IFoo {
 }
 ```
 
+To an external user, DecoratedFoo will act as if it has inherited from 
+whatever IFoo-implementing class you pass in as the argument to the constructor.
+
 The proxy generator will attempt to preserve the `namespace`, `declare`, 
 and `use` statements (but not `use function` or `use const`) from the original
 file.
