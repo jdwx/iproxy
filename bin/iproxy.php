@@ -79,14 +79,19 @@ function BuildProxyMethod( string $i_stName, ast\Node $i_method ) : void {
     if ( ! empty( $i_method->children[ 'params' ]->children ) ) {
         $bFirst = true;
         foreach ( $i_method->children[ 'params' ]->children as $param ) {
+            $stName = $param->children[ 'name' ];
             if ( $bFirst ) {
                 $bFirst = false;
             } else {
                 echo ", ";
             }
-            $type = BuildProxyType( $param->children[ 'type' ] );
-            echo " ", $type, " \$", $param->children[ 'name' ];
-            $rParams[] = "\$" . $param->children[ 'name' ];
+            echo " ";
+            if ( $param->children[ 'type' ] ) {
+                $type = BuildProxyType( $param->children[ 'type' ] );
+                echo $type, " ";
+            }
+            echo "\$", $stName;
+            $rParams[] = "\$" . $stName;
         }
         echo " ";
     }
