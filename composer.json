@@ -1,0 +1,16 @@
+{
+	"name": "jdwx/iproxy",
+	"autoload": {
+		"psr-4": {
+			"JDWX\\iproxy\\": "src/"
+		}
+	},
+	"bin": [
+		"bin/iproxy.php"
+	],
+	"require": {
+		"php": "^8.0",
+		"ext-ast": "*",
+		"ext-ctype": "*"
+	}
+}

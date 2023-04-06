@@ -1,0 +1,5 @@
+These are just here to give Phpstorm something to recognize, as it 
+does not have built-in mocking for the ast extension.
+
+They must never be referenced by any of the live code.
+
