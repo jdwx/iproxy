@@ -10,7 +10,6 @@ results" variety.  It works well for my needs, but there are known limitations,
 and probably some unknown ones.
 
 * Does not (yet) support DNF types for arguments and return types.
-* Does not (yet) support references.
 * Does not (yet) support variadic functions.
 * Does not (yet) support default values for arguments.
 * Does not support interfaces that inherit from other interfaces. (This would be very challenging.)

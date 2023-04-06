@@ -30,3 +30,6 @@ const CLASS_INTERFACE = 1;
 const USE_NORMAL = 1;
 
 const NAME_NOT_FQ = 1;
+
+
+const FUNC_RETURNS_REF = 1;

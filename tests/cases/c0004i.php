@@ -9,4 +9,13 @@ interface IReferenceTest {
 
     public function foo( $bar ) : void;
 
+    public function foo0( int & $bar ) : void;
+
+
+    public function foo1( & $bar ) : void;
+
+
+    public function & foo2() : Baz;
+
+
 }

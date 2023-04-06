@@ -4,6 +4,9 @@
 use ast\flags;
 
 
+require_once __DIR__ . '/../src/ast_util.php';
+
+
 function BuildProxy( ast\Node $i_rootNode ) : void {
     if ( $i_rootNode->kind != ast\AST_STMT_LIST ) {
         throw new Exception( "Root node is not AST_STMT_LIST" );
@@ -64,6 +67,7 @@ function BuildProxyInterface( ast\Node $i_interface ) : void {
 
 
 function BuildProxyMethod( string $i_stName, ast\Node $i_method ) : void {
+    # echo ast_dump( $i_method );
     if ( $i_method->flags & flags\MODIFIER_STATIC ) {
         return;
     }
@@ -74,24 +78,21 @@ function BuildProxyMethod( string $i_stName, ast\Node $i_method ) : void {
         return;
     }
     $stMethod = $i_method->children[ 'name' ];
-    echo "    public function {$stMethod}(";
+    echo "    public function ";
+    if ( $i_method->flags & flags\FUNC_RETURNS_REF ) {
+        echo "& ";
+    }
+    echo "{$stMethod}(";
     $rParams = [];
     if ( ! empty( $i_method->children[ 'params' ]->children ) ) {
         $bFirst = true;
         foreach ( $i_method->children[ 'params' ]->children as $param ) {
-            $stName = $param->children[ 'name' ];
             if ( $bFirst ) {
                 $bFirst = false;
             } else {
                 echo ", ";
             }
-            echo " ";
-            if ( $param->children[ 'type' ] ) {
-                $type = BuildProxyType( $param->children[ 'type' ] );
-                echo $type, " ";
-            }
-            echo "\$", $stName;
-            $rParams[] = "\$" . $stName;
+            $rParams[] = BuildProxyParam( $param );
         }
         echo " ";
     }
@@ -109,6 +110,23 @@ function BuildProxyMethod( string $i_stName, ast\Node $i_method ) : void {
     }
     echo ");\n";
     echo "    }\n\n\n";
+}
+
+
+function BuildProxyParam( ast\Node $i_param ) : string {
+    # echo ast_dump( $i_param );
+    $stName = $i_param->children[ 'name' ];
+    echo " ";
+    if ( $i_param->children[ 'type' ] ) {
+        $type = BuildProxyType( $i_param->children[ 'type' ] );
+        echo $type, " ";
+    }
+    if ( $i_param->flags & flags\PARAM_REF ) {
+        echo "& ";
+    }
+    echo "\$", $stName;
+    return "\$" . $stName;
+
 }
 
 
